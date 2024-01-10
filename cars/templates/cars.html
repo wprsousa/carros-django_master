@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
-
 {% block content %}
-<style>
+  <style>
     .car-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -92,24 +91,36 @@
     button[type="submit"]:hover {
         background-color: #108eb8;
     }
-</style>
 
-<form method="GET" action="{% url 'cars_list' %}">
+    a {
+      font-size: 18px;
+      color: #333;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #0096c7;
+    }
+  </style>
+
+  <form method="GET" action="{% url 'cars_list' %}">
     <input type="text" name="search" placeholder="Buscar carro...">
     <button type="submit">Buscar</button>
-</form>
+  </form>
 
-<div class="car-grid">
+  <div class="car-grid">
     {% if cars %}
-    {% for car in cars %}
-    <div class="car-card">
-        <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
-        <h2>{{ car.brand }} {{ car.model }}</h2>
-        <p>{{ car.factory_year }} - R$ {{ car.value }}</p>
-    </div>
-    {% endfor %}
+      {% for car in cars %}
+        <a href="{% url 'car_detail' car.pk %}">
+          <div class="car-card">
+            <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
+            <h2>{{ car.brand }} {{ car.model }}</h2>
+            <p>{{ car.factory_year }} - R$ {{ car.value }}</p>
+          </div>
+        </a>
+      {% endfor %}
     {% else %}
-    <p class="no-results">Nenhum carro encontrado.</p>
+      <p class="no-results">Nenhum carro encontrado.</p>
     {% endif %}
-</div>
+  </div>
 {% endblock %}
